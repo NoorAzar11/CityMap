@@ -12,17 +12,25 @@ class App extends React.Component {
       areaData: '', //we make '' because we want to give a default val
       Errors: '', //we add the errors msg if the code or api broke
       megErrors: false, // we added if the app broke this will show up
-      mapping: false //we added to show when we need it 
+      mapping: false, //we added to show when we need it 
+      weatherInFoserver:{},
     }
   }
-  //we create a method for get location and reslut.
+  //we create a method  get location and reslut.
   //“async” before a function means one simple thing: a function always returns a promise //we used this .area because its a funaction
   // we need to prevent the default behvior 
   // because we are inside the `` we used ${}
   area = async (event) => {
     event.preventDefault();
     let search2 = event.target.search.value;
-    let areaUrl = `https://us1.locationiq.com/v1/search.php?key=pk.06915dffe039345c0d7fadff6230b3cc&q=${search2}&format=json`;
+    // let areaUrl = `https://us1.locationiq.com/v1/search.php?key=pk.06915dffe039345c0d7fadff6230b3cc&q=${search2}&format=json`;
+//localhost:3012/test/getweather 
+let serverURl=process.env.REACT_APP_SERVER; //its fixed
+const url=`${serverURl}/getweather`;
+const getWetherData=await axios.get(url);
+this.setState({
+  weatherInFoserver:getWetherData.data
+})
     try {
       let reslut = await axios.get(areaUrl);
       // console.log(reslut.data);
@@ -89,6 +97,8 @@ class App extends React.Component {
         </Card>
         {this.state.megErrors && this.state.Errors}
         Explorer Your Fav Area
+        {this.state.weatherInFoserver.weather}
+        {this .state.weatherInFoserver.description}
       </div >
     )
   }
