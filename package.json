@@ -1,0 +1,26 @@
+{
+  "name": "CityMap",
+  "version": "1.0.0",
+  "description": "**Author**: Your Name Goes Here **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "react-bootstrap": "^1.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoorAzar11/CityMap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoorAzar11/CityMap/issues"
+  },
+  "homepage": "https://github.com/NoorAzar11/CityMap#readme"
+}
