@@ -4,78 +4,83 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import Weather from './componets/weather';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      areaData: '', //we make '' because we want to give a default val
-      Errors: '', //we add the errors msg if the code or api broke
-      megErrors: false, // we added if the app broke this will show up
-      mapping: false, //we added to show when we need it 
-      weatherInFoserver:{},
+      area1: '',
+      areaData: '',
+      Errors: '',
+      showIng: false,
+      megErrors: false,
+      mapping: false,
+      weatherDisplay: false,
+      weatherInFoserver: {},
     }
   }
-  //we create a method  get location and reslut.
-  //“async” before a function means one simple thing: a function always returns a promise //we used this .area because its a funaction
-  // we need to prevent the default behvior 
-  // because we are inside the `` we used ${}
+
   area = async (event) => {
     event.preventDefault();
-    let search2 = event.target.search.value;
-    // let areaUrl = `https://us1.locationiq.com/v1/search.php?key=pk.06915dffe039345c0d7fadff6230b3cc&q=${search2}&format=json`;
-//localhost:3012/test/getweather 
-let serverURl=process.env.REACT_APP_SERVER; //its fixed
-const url=`${serverURl}/getweather`;
-const getWetherData=await axios.get(url);
-this.setState({
-  weatherInFoserver:getWetherData.data
-})
+   
+
+    let areaUrl = `https://us1.locationiq.com/v1/search.php?key=pk.06915dffe039345c0d7fadff6230b3cc&q=${this.state.area1.toLowerCase()}&format=json`;
+    //localhost:3012/test/getweather 
+    let serverURl = process.env.REACT_APP_SERVER;
+
+    const url = `${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`;
+
     try {
-      let reslut = await axios.get(areaUrl);
-      // console.log(reslut.data);
+
+      const getWetherData = await axios.get(url);
+      let areaUrl2 = await axios.get(areaUrl);
       this.setState({
-        areaData: reslut.data[0],
-        mapping: true,
+        areaData: areaUrl2.data[0],
+        showing: true,
+        megErrors: false,
+        weatherDisplay: true,
+        weatherInFoserver: getWetherData.data
+
+
+
+
+
+        // let reslut = await axios.get(url);
+        // // console.log(reslut.data);
+        // this.setState({
+        //   areaData: reslut.data[0],
+        //   mapping: true,
       })
+
     }
     catch {
       this.setState({
-        Errors: "Ops ..Try Again",
-        megErrors: true, //will work if link were borke 
+        showing: false,
+        Errors:true,
+        megErrors: true,
+        weatherDisplay: false
+
       })
     }
 
   }
+  area3Det=(e)=>{
+    this.setState({
+      area1:e.target.value
+    })
+  }
+
   render() {
     return (
-      //we bring the displayname and lon and lat from the json file and we store on the state "data"
-      //when we add the form we need a method to get the requset 
-      //The try statement lets you test a block of code for errors.
-      //The catch statement lets you handle the error.
-      //if its true fist part will work if its false second part will work  {this.state.megErrors && this.state.Errors} 
-      < div >
-
-        {/* <h1>City Explorer</h1>
-        <form onSubmit={this.area}>
-          <input type='text' placeholder='Area' name='search' />
-          <input type='submit' value='Explorer' />
-        </form>
-        <p>{this.state.areaData.display_name} </p>
-        <p>{this.state.areaData.lat} </p>
-        <p> {this.state.areaData.lon}</p>
-
-        {this.state.mapping && <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.06915dffe039345c0d7fadff6230b3cc&center= ${this.state.areaData.lat} ,${this.state.areaData.lon}&zoom='1-18' `} alt='mapping' />}
-
-        {this.state.megErrors && this.state.Errors}
-        Explorer Your Fav Area */}
+      <div>
 
         <Form onSubmit={this.area}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label> City Explorer</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control onChange={this.area3Det} placeholder="Enter email" />
             <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
+             
             </Form.Text>
           </Form.Group>
           <Button variant="primary" type="submit">
@@ -86,20 +91,22 @@ this.setState({
         <Card style={{ width: '18rem' }}>
           <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=pk.06915dffe039345c0d7fadff6230b3cc&center= ${this.state.areaData.lat} ,${this.state.areaData.lon}&zoom='1-18' `} alt='mapping' />
           <Card.Body>
-            <Card.Title>Name : {this.state.areaData.display_name}</Card.Title>
+            <Card.Title> CityName: {this.state.areaData.display_name}</Card.Title>
             <Card.Text>
-            Lat :{this.state.areaData.lat}
+              LatNumber :{this.state.areaData.lat}
             </Card.Text>
-            <Card.Text> 
-           Lon : {this.state.areaData.lon}
+            <Card.Text>
+              LonNumber : {this.state.areaData.lon}
             </Card.Text>
           </Card.Body>
         </Card>
         {this.state.megErrors && this.state.Errors}
-        Explorer Your Fav Area
-        {this.state.weatherInFoserver.weather}
-        {this .state.weatherInFoserver.description}
-      </div >
+        Find Your Fav Area
+        <Weather
+       area1={this.state.area1}
+       weatherInFoserver={this.state.weatherInFoserverweatherInFoserver}/>
+        
+      </div>
     )
   }
 }
