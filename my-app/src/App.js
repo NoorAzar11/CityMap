@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Weather from './componets/weather';
+import Movie from './componets/movie';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class App extends React.Component {
       mapping: false,
       weatherDisplay: false,
       weatherInFoserver: {},
+      movieDisplay:false,
+      movieDetails:{}
     }
   }
 
@@ -27,22 +30,27 @@ class App extends React.Component {
 
     let areaUrl = `https://us1.locationiq.com/v1/search.php?key=pk.06915dffe039345c0d7fadff6230b3cc&q=${this.state.area1.toLowerCase()}&format=json`;
     //localhost:3012/test/getweather 
-    let serverURl = process.env.REACT_APP_SERVER;
-
+    // let serverURl = process.env.REACT_APP_SERVER;
+let serverURl='http://localhost:3012';
     const url = `${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`;
+    const weatherData2=await axios.get(`${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`);
+    console.log(weatherData2);
+    const movieData2=await axios.get(`${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`);
+    console.log(movieData2);
 
     try {
 
-      const getWetherData = await axios.get(url);
+      // const getWetherData = await axios.get(url);
       let areaUrl2 = await axios.get(areaUrl);
       this.setState({
+
         areaData: areaUrl2.data[0],
         showing: true,
         megErrors: false,
         weatherDisplay: true,
-        weatherInFoserver: getWetherData.data
-
-
+        weatherInFoserver: weatherData2.data,
+        movieDisplay:true,
+        movieDetails:movieData2,
 
 
 
@@ -59,7 +67,8 @@ class App extends React.Component {
         showing: false,
         Errors:true,
         megErrors: true,
-        weatherDisplay: false
+        weatherDisplay: false,
+        movieDisplay: false
 
       })
     }
