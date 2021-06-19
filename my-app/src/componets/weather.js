@@ -13,8 +13,8 @@ render(){
               <Card.Body>
 
               <Card.Title>
-{/* {this.props.weatherInFoserver[0].date}
-{this.props.weatherInFoserver[1].description} */}
+{this.props.date}
+{this.props.description}
 
               </Card.Title>
 

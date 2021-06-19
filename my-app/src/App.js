@@ -101,7 +101,7 @@ class App extends React.Component {
           </Card.Body>
         </Card>
         {this.state.megErrors && this.state.Errors}
-        Explorer Your Fav Area
+        Find Your Fav Area
         <Weather
        area1={this.state.area1}
        weatherInFoserver={this.state.weatherInFoserverweatherInFoserver}/>
