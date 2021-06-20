@@ -1,32 +1,29 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-
+import MovieDay from './movieday';
 
 
 class Movie extends React.Component {
     render() {
         return (
-            <div>
+            <>
                 {
-                    this.props.movieDetails.map((Item) =>
-                     return(
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Body>
+                    this.props.movieDetails.map((item) => {
 
-                                <Card.Title> You Fav Movies </Card.Title> 
-                                    <Card.Text> 
-                                        Title: {item.title}
-                                        AvgVotes: {item.average_votes}
-                                        Votes:{item.vote_count}
-                                    </Card.Text>
-                            </Card.Body>
-                        </Card>
-                                )
-                            })
-                        }
-</div>
+                        return (
 
-)
-}
+                            <MovieDay
+                                Title={item.title}
+                                average_votes={item.average_votes}
+                                total_count={item.total_count}
+                              image_url={item.image_url}
+                            ></MovieDay>
+                        )
+                    })
+                }
+            </>
+
+        )
+    }
 }
 export default Movie;

@@ -33,9 +33,9 @@ class App extends React.Component {
     // let serverURl = process.env.REACT_APP_SERVER;
 let serverURl='http://localhost:3012';
     const url = `${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`;
-    const weatherData2=await axios.get(`${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`);
+    const weatherData2=await axios.get(`${process.env.REACT_APP_SERVER}/getweather?areaName=${this.state.area1.toLowerCase()}`);
     console.log(weatherData2);
-    const movieData2=await axios.get(`${serverURl}/getweather?areaName=${this.state.area1.toLowerCase()}`);
+    const movieData2=await axios.get(`${process.env.REACT_APP_SERVER}/getweather?areaName=${this.state.area1.toLowerCase()}`);
     console.log(movieData2);
 
     try {
